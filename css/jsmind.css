@@ -1,0 +1,162 @@
+/*
+ * Released under BSD License
+ * Copyright (c) 2014-2015 hizzgdev@163.com
+ * 
+ * Project Home:
+ *   https://github.com/hizzgdev/jsmind/
+ */
+
+/* important section */
+.jsmind-inner{position:relative;overflow:auto;width:100%;height:100%;}/*box-shadow:0 0 2px #000;*/
+.jsmind-inner{
+	moz-user-select:-moz-none;
+	-moz-user-select:none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+/* z-index:1 */
+canvas{position:absolute;z-index:1;}
+
+/* z-index:2 */
+jmnodes {
+	position:absolute;
+	z-index:2;
+	background-color:rgba(0,0,0,0);
+}/*background color is necessary*/
+
+jmnode {
+	position:absolute;
+	cursor:default;
+	max-width:400px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+jmexpander {
+	position:absolute;
+	width:12px;
+	height:12px;
+	display:block;
+	overflow:hidden;
+	line-height:14px;
+	font-size:14px;
+	text-align:center;
+	background-color: #fff;
+	border-radius:10px;
+	border: 1px solid #a1a1a1;
+	cursor: pointer;
+}
+
+/* default theme */
+jmnode {
+	padding:6px;
+	background-color: #e5e5e5;
+	color: #444;
+	border-radius:4px;
+	border: 1px solid #444;
+	font:16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+}
+
+jmnode a {
+	color: #444;
+	text-decoration: none;
+}
+
+jmnode a:hover {
+	text-decoration: none;
+	color: #222;
+}
+
+jmnode:hover {
+	box-shadow:0px 0px 8px #000;
+	color: #222;
+}
+
+jmnode.selected {
+	box-shadow:0px 0px 8px #000;
+}
+
+jmnode.root {
+	font-size:25px;
+	border-radius: 10px;
+	border: 2px solid #444;
+	padding: 10px;
+	background-color: #e5e5e5;
+}
+
+jmexpander {
+	border-color:#777;
+}
+
+jmexpander:hover {
+	border-color:#000;
+}
+
+@media screen and (max-device-width: 1024px) {
+	jmnode{padding:5px;border-radius:3px;font-size:14px;}
+	jmnode.root{font-size:21px;}
+}
+
+/* Added stuff */
+
+jmnode .linkimg {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+jmnode .linkicon {
+	height: 16px;
+	width: 16px;
+	vertical-align: middle;
+	border-right: 1px solid #444;
+	padding-bottom: 2px;
+	padding-right: 5px;
+	margin-right: 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+jmnode iframe {
+	border: 0;
+}
+
+
+jmnode img { 
+	width: 100%;
+	display: block;
+	position: relative;
+}
+
+jmnode img:after {
+	content: attr(alt);
+	color: #444;
+	display: block;
+	font-size: 14px;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #e5e5e5;
+}
+
+#tooltip {
+	position: absolute;
+	display: none;
+	z-index: 3;
+	padding: 4px;
+	max-width: 250px;
+	border: 1px solid #444;
+	background-color: #fff;
+	border-radius: 2px;
+	font-size: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
