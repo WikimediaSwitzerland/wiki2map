@@ -493,6 +493,4 @@ window.onload = function() {
 	addListeners();
 
 	map = new jsMind({container: "map", editable: false, theme: "default"});
-
-	init("Le potenze (scuola media)", "it.wikiversity.org", true);
 };
