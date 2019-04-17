@@ -195,15 +195,15 @@ input, select, #checklabel div {
 #console {
 	color: #444;
 	width: 400px;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 30px;
+	left: calc(50% - 200px);
+	top: 30px;
 	background-color: #e5e5e5;
 	border: 1px solid #444;
 	border-radius: 4px;
 	word-wrap: break-word;
 	padding: 10px;
 	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+	position: absolute;
 	display: none;
 }
 
@@ -211,3 +211,30 @@ input, select, #checklabel div {
 	background-color: #ffd8d8 !important;
 }
 
+/* Help box */
+
+#help {
+	cursor: pointer;
+	position: fixed;
+	top: 200px;
+	left: 50%;
+	transform: translate(-50%);
+	max-width: 800px;
+	width: 80%;
+	word-wrap: break-word;
+	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+}
+
+#help ol li {
+	margin-bottom: 5px;
+}
+
+#help ul li img {
+	height: 14px;
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+#help span {
+	font-size: 12px;
+}

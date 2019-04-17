@@ -87,6 +87,11 @@ function addListeners() {
 		if(!get("togglespeech").checked) synth.cancel();
 	});
 
+	var help = get("help");
+	help.addEventListener("click", function() {
+		if(help.style.display != "none") help.style.display = "none";
+	});
+
 	var topicElement = get("topic");
 	topicElement.addEventListener("input", function() {
 		var container = get("autocomplete");

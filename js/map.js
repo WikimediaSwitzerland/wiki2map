@@ -31,6 +31,7 @@ var messageDefaultTime = 3000; // How long the message should stay visible
 var pageLoadTime = 2000; // How long the page can load before map is shown
 
 function init(t, w, add) {
+	if(help.style.display != "none") help.style.display = "none";
 
 	synth.cancel();
 
