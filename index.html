@@ -15,11 +15,11 @@
 		<div id="toolbar">
 			<div>
 				<select id="wiki"></select>
-				<input type="text" id="altwiki" placeholder="Wiki (en.wikipedia.org)"/>
+				<input type="text" id="altwiki" placeholder="Wiki (e.g.: en.wikipedia.org)"/>
 				<input type="button" id="submit" value="Search!"/>
 			</div>
 			<div id="container">
-				<input type="text" id="topic" autocomplete="off" placeholder="Topic (Wikipedia)"/>
+				<input type="text" id="topic" autocomplete="off" placeholder="Topic (e.g.: Water)"/>
 				<div id="autocomplete"></div>
 			</div>
 			<div id="navigation">
@@ -68,6 +68,31 @@
 			<select id="voices"></select>
 		</div>
 		<div id="console"></div>
+		<div id="help" title="Click to dismiss">
+			<h2>Welcome to Wiki2Map!</h2>
+			<p>On the left you'll find all the tools to generate your mind map, here's how:
+				<ol>
+					<li>Select the wiki you want to get your article from using the drop-down list, if you don't find it there you can paste its root URL into the "Wiki" textbox (remember not to include "http://www" in the URL)</li>
+					<li>Start writing the title of the article in the "Topic" textbox, you should get a list of articles</li>
+					<li>Click on the article you are interested in and wait a couple seconds</li>
+					<li>If no such list appears, just finish entering the title and then click on the "Search!" button</li>
+				</ol>
+				Once you have generated your mind map you can zoom in and out using the buttons on the left and even download it to your computer for later use.
+			</p>
+			<p>
+				Here's how different parts of the map behave:
+				<ul>
+					<li>White bubbles are links to other topics, you can click on the <img src="css/img/icon/sync.png" title="" alt=""> icon to generate a new map using that topic as the root. Wiki2Map keeps a history of generated maps: you can navigate between them by clicking on the left and right arrows located on the toolbar.</li>
+					<li>Blue bubbles contain images: you can get the full size one just by clicking on it</li>
+					<li>Red bubbles contain videos</li>
+				</ul>
+			</p>
+			<p>
+				If you need assitance with reading and don't have any screen reader software installed you can enable screen reading by clicking on the box on the right side of the screen. Just choose the language from the drop-down menu and the browser will read the bubbles to you as you pass the cursor over them. </br>
+				Please note that screen reading capabilities depend on the browser you are using and might not be always available!
+			</p>
+			<span>Click to dismiss</span>
+		</div>
 		<div id="tooltip"></div>
 		<div id="map"></div>
 		<div id="loading">

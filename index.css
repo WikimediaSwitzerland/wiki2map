@@ -1,0 +1,240 @@
+html, body {
+	margin: 0;
+	height: 100%;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+#loading {
+ 	width: 100%;
+	height: 100%;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Navbar */
+
+#toolbar {
+	z-index: 4;
+	position: fixed;
+	top: 25px;
+	left: 30px;
+}
+
+input, select, #checklabel div {
+	background-color: #e5e5e5;
+	padding: 6px;
+	border-radius: 4px;
+	border: 1px solid #444;
+	font-size: 16px;
+	color: #444;
+}
+
+#navigation {
+	margin-top: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#navigation input:disabled {
+	cursor: not-allowed;
+}
+
+#altwiki {
+	width: 30px;
+}
+
+#wiki {
+	padding-top: 5px;
+	padding-bottom: 7px;
+	width: 180px;
+}
+
+#topic {
+	box-sizing: border-box;
+	margin-top: 5px;
+	width: 100%;
+}
+
+#submit {
+	cursor: pointer;
+}
+
+#extra {
+	margin-top: 5px;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#people {
+	font-size: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin-top: 5px;
+	padding: 6px;
+	border-radius: 4px;
+	border: 1px solid #444;
+	background-color: #e5e5e5;
+}
+
+#people p {
+	margin: 0;
+}
+
+#people p:not(:last-child) {
+	margin-bottom: 10px;
+}
+
+#people a {
+	color: #444;
+	text-decoration: none;
+}
+
+#container {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+#autocomplete {
+	position: absolute;
+	background-color: #fff;
+	z-index: 5;
+	top: 100%;
+	left: 0;
+	right: 0;
+	box-shadow:0px 0px 8px #000;
+}
+
+#autocomplete span {
+	cursor: pointer;
+	overflow-wrap: break-word;
+	background-color: #fff;
+	display: block;
+	margin: 6px;
+	padding: 2px;
+	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* Text-to-speech */
+
+#speech {
+	z-index: 4;
+	position: fixed;
+	top: 25px;
+	right: 30px;
+}
+
+#voices {
+	width: 220px
+}
+
+#checklabel {
+	margin-bottom: 5px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: block;
+	position: relative;
+	cursor: pointer;
+	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+}
+
+#checklabel input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+}
+
+#checkmark:after {
+	width: 10px;
+	height: 20px;
+	left: 14px;
+	top: 6px;
+	transform: rotate(45deg);
+	border: solid #000;
+	border-width: 0 6px 6px 0;
+	position: absolute;
+	display: none;
+	content: "";
+}
+
+#checkmark {
+	height: 44px;
+	width: 44px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 4px;
+	border: 1px solid #444;
+	background-color: #e5e5e5;
+}
+
+#checklabel:hover input ~ #checkmark {
+	background-color: #ededed;
+}
+
+#checklabel input:checked ~ #checkmark:after {
+	display: block;
+}
+
+#checklabel div {
+	text-align: center;
+	margin-left: 50px;
+	height: 32px;
+}
+
+/* Console */
+
+#console {
+	color: #444;
+	width: 400px;
+	left: calc(50% - 200px);
+	top: 30px;
+	background-color: #e5e5e5;
+	border: 1px solid #444;
+	border-radius: 4px;
+	word-wrap: break-word;
+	padding: 10px;
+	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+	position: absolute;
+	display: none;
+}
+
+.error { /* Console becomes red if the message is an error */
+	background-color: #ffd8d8 !important;
+}
+
+/* Help box */
+
+#help {
+	cursor: pointer;
+	position: fixed;
+	top: 200px;
+	left: 50%;
+	transform: translate(-50%);
+	max-width: 800px;
+	width: 80%;
+	word-wrap: break-word;
+	font: 16px/1.125 Verdana, Arial, Helvetica, sans-serif;
+}
+
+#help ol li {
+	margin-bottom: 5px;
+}
+
+#help ul li img {
+	height: 14px;
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+#help span {
+	font-size: 12px;
+}
