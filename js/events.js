@@ -111,7 +111,7 @@ function addListeners() {
 						article.textContent = topic;
 						container.appendChild(article);
 
-						article.addEventListener("click", function() {init(topic, source, true)});
+						article.addEventListener("mousedown", function() {init(topic, source, true)});
 					});
 				} else container.innerHTML = "";
 			});
@@ -130,9 +130,7 @@ function addListeners() {
 	});
 
 	topicElement.addEventListener("blur", function() {
-		window.setTimeout(function() {
-			get("autocomplete").innerHTML = "";
-		}, 100);
+		get("autocomplete").innerHTML = "";
 	});	
 
 	altwikiElement.addEventListener("focus", function() {
