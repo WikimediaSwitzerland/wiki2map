@@ -308,7 +308,7 @@ function generateLink(title, site, thumb, icon) { // Returns a custom HTML link
 	link.addEventListener("click", function() {
 		window.open(site);
 	});
-			
+
 	return link;
 }
 
@@ -320,7 +320,7 @@ function push(id, parent, topic, width, height, expanded) {
 		node["direction"] = direction ? "left" : "right";
 	}
 	if(width != null) node["width"] = width;
-	if(height != null) node["height"] = height; 
+	if(height != null) node["height"] = height;
 
 	data.push(node);
 }
@@ -488,10 +488,21 @@ window.onload = function() {
 	addWikis();
 
 	loadVoices();
-	if(typeof synth !== "undefined" && 
+	if(typeof synth !== "undefined" &&
 		synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
 
 	addListeners();
 
 	map = new jsMind({container: "map", editable: false, theme: "default"});
+
+	let url = new URL(window.location.href);
+	let wiki = url.searchParams.get("wiki");
+	let topic = url.searchParams.get("topic");
+
+	if(wiki != "" && topic != "") {
+		altwikiElement.value = wiki;
+		topicElement.value = topic;
+
+		init(topic, wiki, true);
+	}
 };
