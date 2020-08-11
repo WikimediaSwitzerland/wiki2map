@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="js/events.js"></script>
+		<script type="text/javascript" src="js/map.js"></script>
+		<script type="text/javascript" src="js/jsmind.custom.js"></script>
+		<script type="text/javascript" src="js/jsmind.screenshot.js"></script>
+		<script type="text/javascript" src="js/wtf.custom.js"></script>
+		<link href="css/img/icon/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<link type="text/css" rel="stylesheet" href="css/index.css"/>
+		<link type="text/css" rel="stylesheet" href="css/jsmind.css"/>
+		<title>Wiki2Map</title>
+	</head>
+	<body>
+		<div id="toolbar">
+			<div>
+				<select id="wiki"></select>
+				<input type="text" id="altwiki" placeholder="Wiki (e.g.: en.wikipedia.org)"/>
+				<input type="button" id="submit" value="Search!"/>
+			</div>
+			<div id="container">
+				<input type="text" id="topic" autocomplete="off" placeholder="Topic (e.g.: Water)"/>
+				<div id="autocomplete"></div>
+			</div>
+			<div id="navigation">
+				<input type="image" id="back" title="Go back" disabled="true" src="css/img/nav/back.png"/>
+				<input type="image" id="in" title="Zoom in" src="css/img/nav/in.png"/>
+				<input type="image" id="export" title="Export" src="css/img/nav/export.png"/>
+				<input type="image" id="out" title="Zoom out" src="css/img/nav/out.png"/>
+				<input type="image" id="next" title="Go forward" disabled="true" src="css/img/nav/next.png"/>
+			</div>
+			<div id="extra" style="display: none">
+				<input type="image" id="screenshot" title="Take a screenshot" src="css/img/nav/camera.png"/>
+				<input type="image" id="nodearray" title="Download as Node Array file" src="css/img/nav/nodearray.png"/>
+				<input type="image" id="freemind" title="Download as Free Mind file" src="css/img/nav/freemind.png"/>
+				<input type="image" id="nodetree" title="Download as Node Tree file" src="css/img/nav/nodetree.png"/>
+				<input type="image" id="about" title="Credits and open source licenses" src="css/img/nav/about.png"/>
+			</div>
+			<div id="people" style="display: none">
+				<p>
+					Made by <a target="_blank" href="https://github.com/pippogeek" alt="Filippo Miserocchi">Filippo Miserocchi</a> and <br>
+					<a target="_blank" href="http://www.mattruffoni.it/" alt="Matteo Ruffoni">Matteo Ruffoni</a> for <a target="_blank" href="http://www.wikimedia.ch/" alt="Wikimedia CH">Wikimedia CH</a>
+				</p>
+				<p>
+					Uses <a target="_blank" href="https://github.com/hizzgdev" alt="Zhigang Zhang">Zhigang Zhang</a>'s jsMind (<a target="_blank" href="licenses/jsmind/license.html" alt="license">license</a>) <br>
+					and	<a target="_blank" href="https://github.com/spencermountain" alt="Spencer Kelly">Spencer Kelly</a>'s wtf_wikipedia (<a target="_blank" href="https://opensource.org/licenses/MIT" alt="license">license</a>)
+				</p>
+				<p>
+					Inspired by <a target="_blank" href="https://github.com/nyfelix" alt="Felix Nyffenegger">Felix Nyffenegger</a>'s <br>
+					WikiMindMap
+				</p>
+				<p>
+					Icons designed by <a target="_blank" href="https://www.iconfinder.com/yanlu">Yannick Lung</a>
+				</p>
+				<p>
+					Released under the <a target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a> license
+				</p>
+			</div>
+		</div>
+		<div id="speech" style="display: none">
+			<label id="checklabel" title="Read map">
+				<input type="checkbox" id="togglespeech"/>
+				<span id="checkmark"></span>
+				<div>
+					<img src="css/img/nav/tts.png"/>
+				</div>
+			</label>
+			<select id="voices"></select>
+		</div>
+		<div id="console"></div>
+		<div id="help" title="Click to dismiss">
+			<h2>Welcome to Wiki2Map!</h2>
+			<p>On the left you'll find all the tools to generate your mind map, here's how:
+				<ol>
+					<li>Select the wiki you want to get your article from using the drop-down list, if you don't find it there you can paste its root URL into the "Wiki" textbox (remember not to include "http://www" in the URL)</li>
+					<li>Start writing the title of the article in the "Topic" textbox, you should get a list of articles</li>
+					<li>Click on the article you are interested in and wait a couple seconds</li>
+					<li>If no such list appears, just finish entering the title and then click on the "Search!" button</li>
+				</ol>
+				Once you have generated your mind map you can zoom in and out using the buttons on the left and even download it to your computer for later use.
+			</p>
+			<p>
+				Here's how different parts of the map behave:
+				<ul>
+					<li>White bubbles are links to other topics, you can click on the <img src="css/img/icon/sync.png" title="" alt=""> icon to generate a new map using that topic as the root. Wiki2Map keeps a history of generated maps: you can navigate between them by clicking on the left and right arrows located on the toolbar.</li>
+					<li>Blue bubbles contain images: you can get the full size one just by clicking on it</li>
+					<li>Red bubbles contain videos</li>
+				</ul>
+			</p>
+			<p>
+				If you need assitance with reading and don't have any screen reader software installed you can enable screen reading by clicking on the box on the right side of the screen. Just choose the language from the drop-down menu and the browser will read the bubbles to you as you pass the cursor over them. </br>
+				Please note that screen reading capabilities depend on the browser you are using and might not be always available!
+			</p>
+			<span>Click to dismiss</span>
+		</div>
+		<div id="tooltip"></div>
+		<div id="map"></div>
+		<div id="loading">
+			<img title="Loading..." alt="Loading..." src="css/img/loading/loading.gif"/>
+		</div>
+	</body>
+</html>

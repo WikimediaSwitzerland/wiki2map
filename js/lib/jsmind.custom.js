@@ -7,7 +7,7 @@
  */
 
 ;(function($w){
-    'use strict';       
+    'use strict';
     // set 'jsMind' as the library name.
     // __name__ should be a const value, Never try to change it easily.
     var __name__ = 'jsMind';
@@ -59,7 +59,7 @@
             hmargin:100,
             vmargin:50,
             line_width:2,
-            line_color:'#444'
+            line_color:'#ced4da'
         },
         layout:{
             hspace:30,
@@ -69,7 +69,7 @@
         default_event_handle:{
             enable_mousedown_handle:true,
             enable_click_handle:true,
-            enable_dblclick_handle:true
+            enable_dblclick_handle:false
         },
         shortcut:{
             enable:false,
@@ -2923,4 +2923,3 @@
         $w[__name__] = jm;
     }
 })(typeof window !== 'undefined' ? window : global);
-
