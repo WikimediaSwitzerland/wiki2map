@@ -18,7 +18,8 @@ export const content = {
 	"map": undefined,
 
 	"wiki": undefined,
-	"topic": undefined
+	"topic": undefined,
+	"lang": undefined,
 };
 
 export function generate(wiki, topic, track) {
@@ -34,6 +35,9 @@ export function generate(wiki, topic, track) {
 
 	let params = {lang: wiki.split(".")[0],
 		wiki: wiki.split(".")[1]};
+
+	content.lang = params.lang;
+	//FIXME
 
 	wtf.fetch(topic, params).then((dump) => {
 		let sections;
@@ -160,17 +164,24 @@ function makeImages(parent, images) {
 
 		// Check if the image type is supported
 		if(["jpg", "jpeg", "png", "gif", "svg"].indexOf(image.format()) > -1) {
-			let request = new XMLHttpRequest();
+			let params = {action: "query",
+				format: "json",
+				origin: "*",
+				titles: encodeURIComponent(image.file()),
+				prop: "imageinfo",
+				iiprop: "url",
+				iiurlwidth: IMAGE_THUMB_SIZE
+			};
 
-			request.addEventListener("load", function() {
-				let data = flattenJSON(JSON.parse(request.response));
+			$.getJSON("https://" + content.wiki + "/w/api.php", params, (dump) => {
+				let data = flattenJSON(dump);
 				content.queued.push(id);
 				img.attr("data-source", data.url);
 
 				let thumb = img.clone();
 				let link = getImageLink(thumb);
 				// Fix layout once image loads
-				thumb.one("load", function() {
+				thumb.one("load", () => {
 					addNode(id, parent, link[0].outerHTML, IMAGE_THUMB_SIZE);
 
 					let index = content.queued.indexOf(id);
@@ -180,17 +191,6 @@ function makeImages(parent, images) {
 
 				thumb.attr("src", data.thumburl);
 			});
-
-			request.open("GET", "https://" + content.wiki + "/w/api.php?" +
-		    "action=query&" +
-		    "format=json&" +
-		    "origin=*&" +
-		    "titles=" + encodeURIComponent(image.file()) + "&" +
-		    "prop=imageinfo&" +
-		    "iiprop=url&" +
-		    "iiurlwidth=" + IMAGE_THUMB_SIZE);
-
-			request.send();
 		}
 	});
 }
@@ -201,16 +201,20 @@ function makeExtras(parent, section) {
 	let vk = $("<img/>");
 	vk.attr("src", "src/icon/vk.png");
 
-	let thumb = $("<img/>");
-
 	if(templates != undefined) { // Some sections don't have templates in them
-		templates.forEach(function(template, i) {
-			let type;
-			if(template["template"] != undefined)
-				type = template["template"].toLowerCase();
+		templates.forEach(function(item, i) {
+			switch(item.template) {
+				case "youtube":
+				handleYoutubeTemplate(parent, item, i);
+				break;
 
-			// If data is not an array then we have a redlink
-			if(type == "vk" && Array.isArray(template["data"])) {
+				case "vk":
+				handleVikidiaTemplate(parent, item, i);
+				break;
+
+				// Add more as needed
+			}
+			/*if(type == "vk" && Array.isArray(temp.data)) {
 				let id = parent + "-vk" + i;
 				let topic = template["data"][0];
 
@@ -221,35 +225,7 @@ function makeExtras(parent, section) {
 					topic];
 				let link = getTextLink(topic, url, tooltip, vk);
 				addNode(id, parent, link[0].outerHTML);
-			}
-
-			if(type == "youtube") {
-				let wikitext = template["wikitext"];
-				let id = parent + "-yt" + i;
-
-				// This one is tricky - the template changes for every language
-				// Moreover, the user can choose to add identifiers or not
-				// Supporting italian and english (default) at the moment
-
-				switch(lang) {
-					case "it":
-						wikitext = parseTemplate(wikitext, "id", "titolo");
-						break;
-
-					default:
-						wikitext = parseTemplate(wikitext, "id", "title"); // Fall back to english
-						break;
-				}
-
-				let image = thumb.clone();
-				image.attr("data-source", "https://www.youtube.com/watch?v=" + wikitext[0])
-					.prop("title", "Go to " + wikitext[1])
-					.attr("src", "https://img.youtube.com/vi/" + wikitext[0] + "/mqdefault.jpg");
-
-				let link = getImageLink(image);
-				// YouTube generated thumbnails are 120x90
-				addNode(id, parent, link[0].outerHTML, IMAGE_THUMB_SIZE, 115);
-			}
+			}*/
 			// More templates coming
 		});
 	}
@@ -264,6 +240,7 @@ function addNode(id, parent, value, width = undefined, height = undefined) {
 		"expanded": false
 	};
 
+	// Alternate between right and left
 	if(parent == ROOT_NODE) {
 		direction = !direction;
 		node["direction"] = direction ? "left" : "right";
@@ -275,72 +252,34 @@ function addNode(id, parent, value, width = undefined, height = undefined) {
 	content.tree.push(node);
 }
 
-// Outputs a consistent data object regardless of language
-function parseTemplate(template, idIdentifier, titleIdentifier) {
-	template = template.slice(2, -2).split("|");
-	template.shift();
+// ================================ TEMPLATES =============================== //
 
-	let data = [];
-	template.forEach(function(part, i) {
-		if(part.indexOf("=") > -1) {
-			part = part.split("=");
-			let value = part[1].trim();
+const YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v=";
 
-			switch(part[0].trim()) {
-				case idIdentifier:
-				data[0] = value;
-				break;
+function handleYoutubeTemplate(parent, t, i) {
+	let id = parent + "-yt" + i;
+	let thumb = $("<img/>");
+	let params = {format: "json", url: YOUTUBE_BASE_URL + t.id};
 
-				case titleIdentifier:
-				data[1] = value;
-				break;
-			}
-		} else data.push(part.trim());
+	$.getJSON("https://noembed.com/embed", params, (data) => {
+		let thumburl = "https://img.youtube.com/vi/" + t.id + "/mqdefault.jpg";
+
+		thumb.attr("data-source", "https://www.youtube.com/watch?v=" + t.id)
+			.attr("src", "https://img.youtube.com/vi/" + t.id + "/mqdefault.jpg");
+
+		let link = getImageLink(thumb);
+		link.addClass("video-link")
+			.prop("title", data.title);
+
+		addNode(id, parent, link[0].outerHTML, IMAGE_THUMB_SIZE, 115);
+
+		let index = content.queued.indexOf(id);
+		if(index > -1) content.queued.splice(index, 1);
+		if(content.queued.length == 0) show();
 	});
-
-	return data;
 }
 
 // ================================ TOOLTIP ================================= //
-
-// Main link generator
-function getLink(value, url, icon = null) {
-	let link = $("<a></a>");
-	link.attr("target", "_blank");
-	link.attr("href", url);
-
-	if(icon != null) link.append(icon);
-
-	link.append(value);
-	return link;
-}
-
-// Make a text link
-function getTextLink(text, url, tooltip, icon = null) {
-	let link = getLink(text, url, icon);
-
-	link.mouseover(function() {
-		voice.read(link.html());
-	});
-
-	return attachTooltip(link, tooltip);
-}
-
-// Make a link with an image
-function getImageLink(image) {
-	let link = getLink(image, image.attr("data-source"));
-
-	link.addClass("image-link");
-	return link;
-}
-
-// Link to a wiki page
-function getInternalLink(wiki, topic, tooltip, icon = null) {
-	let text = topic.charAt(0).toUpperCase() + topic.slice(1);
-	if(tooltip[0] == LINK_TOOLTIP)
-		tooltip = [tooltip, wiki, topic];
-	return getTextLink(text, getTopicURL(wiki, topic), tooltip, icon);
-}
 
 function attachTooltip(link, tooltip) {
 	let type = tooltip[0];
@@ -362,4 +301,45 @@ function attachTooltip(link, tooltip) {
 	link.attr("data-tip-type", type);
 
 	return link;
+}
+
+// =============================== LINKS ==================================== //
+
+// Main link generator
+function getLink(value, url, icon = null) {
+	let link = $("<a></a>");
+	link.attr("target", "_blank");
+	link.attr("href", url);
+
+	if(icon != null) link.append(icon);
+
+	link.append(value);
+	return link;
+}
+
+// Make a text link
+function getTextLink(text, url, tooltip, icon = null) {
+	let link = getLink(text, url, icon);
+
+	link.mouseover(() => {
+		voice.read(link.html());
+	});
+
+	return attachTooltip(link, tooltip);
+}
+
+// Make a link with an image
+function getImageLink(image) {
+	let link = getLink(image, image.attr("data-source"));
+
+	link.addClass("image-link");
+	return link;
+}
+
+// Link to a wiki page
+function getInternalLink(wiki, topic, tooltip, icon = null) {
+	let text = topic.charAt(0).toUpperCase() + topic.slice(1);
+	if(tooltip[0] == LINK_TOOLTIP)
+		tooltip = [tooltip, wiki, topic];
+	return getTextLink(text, getTopicURL(wiki, topic), tooltip, icon);
 }
