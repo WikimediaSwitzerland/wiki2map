@@ -46,14 +46,17 @@ body, html {
 }
 
 #tooltip {
+	text-align: justify;
+	text-justify: inter-word;
 	position: absolute;
 	display: none;
 	z-index: 3;
-	padding: 4px;
+	padding: 6px;
 	max-width: 250px;
-	border: 1px solid #444;
 	background-color: #fff;
-	border-radius: 2px;
+	border: 1px solid #ced4da;
+	color: #212529;
+	border-radius: 3px;
 	font-size: 14px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }

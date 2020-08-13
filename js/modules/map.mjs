@@ -63,7 +63,7 @@ export function generate(wiki, topic, track) {
 
 		makeLinks(ROOT_NODE, sections[0].links());
 		makeImages(ROOT_NODE, sections[0].images());
-		makeExtras(ROOT_NODE, sections[0]);
+		makeTemplates(ROOT_NODE, sections[0]);
 
 		// Keeps track of where we are on the page when building the mindmap
 		let index = [0, 0, 0, 0];
@@ -90,7 +90,7 @@ export function generate(wiki, topic, track) {
 
 			makeLinks(id, section.links());
 			makeImages(id, section.images());
-			makeExtras(id, section);
+			makeTemplates(id, section);
 		});
 
 		show();
@@ -195,11 +195,8 @@ function makeImages(parent, images) {
 	});
 }
 
-function makeExtras(parent, section) {
+function makeTemplates(parent, section) {
 	let templates = section.json()["templates"];
-
-	let vk = $("<img/>");
-	vk.attr("src", "src/icon/vk.png");
 
 	if(templates != undefined) { // Some sections don't have templates in them
 		templates.forEach(function(item, i) {
@@ -211,22 +208,8 @@ function makeExtras(parent, section) {
 				case "vk":
 				handleVikidiaTemplate(parent, item, i);
 				break;
-
 				// Add more as needed
 			}
-			/*if(type == "vk" && Array.isArray(temp.data)) {
-				let id = parent + "-vk" + i;
-				let topic = template["data"][0];
-
-				let url = "https://" + lang + ".vikidia.org/wiki/" + topic;
-				let tooltip = [
-					LINK_TOOLTIP,
-					lang + ".vikidia.org",
-					topic];
-				let link = getTextLink(topic, url, tooltip, vk);
-				addNode(id, parent, link[0].outerHTML);
-			}*/
-			// More templates coming
 		});
 	}
 }
@@ -277,6 +260,28 @@ function handleYoutubeTemplate(parent, t, i) {
 		if(index > -1) content.queued.splice(index, 1);
 		if(content.queued.length == 0) show();
 	});
+}
+
+function handleVikidiaTemplate(parent, t, i) {
+	if(!Array.isArray(t.list)) return; // Abort if redlink
+
+	let icon = $("<img/>");
+	icon.attr("src", "res/icon/vk.png")
+		.addClass("icon-link")
+		.prop("title", "Vikidia link");
+		
+	let id = parent + "-vk" + i;
+
+	let topic = t.list[0];
+	let title = t.list[1];
+	let url = "https://" + content.lang + ".vikidia.org/wiki/" + topic;
+
+	// Replace with NO_TOOLTIP with LINK_TOOLTIP when (and if) vikidia
+	// fixes CORS permissions to enable tooltips
+	let tooltip = [NO_TOOLTIP, content.lang + ".vikidia.org", topic];
+	let link = getTextLink(topic, url, tooltip, icon);
+
+	addNode(id, parent, link[0].outerHTML);
 }
 
 // ================================ TOOLTIP ================================= //
