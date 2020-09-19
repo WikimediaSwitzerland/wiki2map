@@ -2,9 +2,17 @@ export function getTopic() {
   return $("#topic").val();
 }
 
-function normalizeURL(url) {
-  let ret = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
-  return ret;
+export function getWiki() {
+  let splitted = getURL().split(".").slice(-2);
+  return splitted.join(".");
+}
+
+export function getWikiName() {
+  return getURL().split(".")[1];
+}
+
+export function getLang() {
+  return getURL().split(".")[0];
 }
 
 export function getURL() {
@@ -16,11 +24,31 @@ export function getURL() {
     url = $("#lang-dropdown-btn").attr("data-value") + "." +
       $("#wiki-dropdown-btn").attr("data-value");
 
-  return normalizeURL(url);
+  url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+
+  return url;
 }
 
-export function getTopicURL(wiki, topic) {
-  return "https://" + wiki + "/wiki/" + topic;
+export function getTopicURL(wiki, topic, lang) {
+  return "https://" + lang + "." + wiki + "/wiki/" + topic;
+}
+
+export function getWikiURL(wiki, lang) {
+  return "https://" + lang + "." + wiki;
+}
+
+export function populateList(element, data) {
+  let dropdown = $("#" + element + " div");
+  let option = $("<a></a>");
+  option.addClass("dropdown-item");
+  option.attr("href", "#");
+
+  data.forEach(function(e, i) {
+    option.text(e[0]);
+    option.attr("data-value", e[1]);
+
+    dropdown.append(option.clone());
+  });
 }
 
 /** @https://stackoverflow.com/users/3593896/webber

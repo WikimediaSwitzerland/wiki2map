@@ -9,6 +9,11 @@ body, html {
 	right: 0;
 	left: 0;
 	z-index: 9999;
+	background: linear-gradient(to bottom,
+		rgba(255,255,255,1) 50%, 90%,
+		rgba(255,255,255,0) 100%);
+	padding: 1.5rem 1.5rem 50px 1.5rem;
+	margin: 0 !important;
 }
 
 #custom-url-container {
@@ -57,6 +62,35 @@ body, html {
 	border: 1px solid #ced4da;
 	color: #212529;
 	border-radius: 3px;
-	font-size: 14px;
+	font-size: 12px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#middle-nav .btn {
+	margin: 0 2px 0 2px;
+	padding-bottom: 0px;
+	width: 110px;
+}
+
+#middle-nav .btn img {
+	margin: 10px auto;
+	display: block;
+}
+
+#tts-dropdown .btn {
+	min-width: 200px;
+}
+
+#tts-dropdown {
+	display: none;
+}
+
+#tts-dropdown .dropdown-menu {
+	height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+}
+
+#tts-dropdown p {
+	margin-bottom: 5px;
 }

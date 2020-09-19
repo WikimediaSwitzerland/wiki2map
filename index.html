@@ -14,21 +14,21 @@
 		<link href="res/icon/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	</head>
 	<body>
-		<div class="row m-4" id="controls" data-target="0">
+		<div class="row" id="controls" data-target="0">
 			<div class="col-md-3">
 				<div id="dropdown-container" class="justify-content-between flex-wrap">
 					<div class="d-flex">
 						<div id="wiki-dropdown" class="mr-2 dropdown-container">
 							<button class="btn mb-1 btn-primary dropdown-toggle" type="button"
 								id="wiki-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Wiki
+								<span>Wiki</span>
 						  </button>
 						  <div class="dropdown-menu" aria-labelledby="wiki-dropdown-btn"></div>
 						</div>
 						<div id="lang-dropdown" class="dropdown-container">
 							<button class="btn mb-1 btn-primary dropdown-toggle" type="button"
 								id="lang-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    Language
+						    <span>Language</span>
 						  </button>
 						  <div class="dropdown-menu" aria-labelledby="lang-dropdown-btn"></div>
 						</div>
@@ -53,11 +53,36 @@
 				</div>
 				<ul class="list-group" id="autocomplete"></ul>
 			</div>
-			<div class="col-md">
-
+			<div class="col-md-6">
+				<div class="d-flex flex-row justify-content-center h-100" id="middle-nav">
+					<button id="back-button" disabled class="btn btn-primary">
+						Back
+						<img src="res/nav/back.png" title="Back"/>
+					</button>
+					<button id="zoom-out-button" class="btn btn-info">
+						Zoom out
+						<img src="res/nav/out.png" title="Zoom out"/>
+					</button>
+					<button id="zoom-in-button" class="btn btn-info">
+						Zoom in
+						<img src="res/nav/in.png" title="Zoom in"/>
+					</button>
+					<button id="forward-button" disabled class="btn btn-primary">
+						Forward
+						<img src="res/nav/forward.png" title="Forward"/>
+					</button>
+				</div>
 			</div>
-			<div class="col-md">
-
+			<div class="col-md-3">
+				<div class="d-flex flex-row justify-content-end h-100 dropdown-container" id="tts-dropdown">
+					<button class="btn btn-primary dropdown-toggle h-100" type="button"
+						id="tts-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img src="res/nav/tts.png" title="Back"/>
+						<p></p>
+						<span></span>
+					</button>
+					<div class="dropdown-menu" aria-labelledby="tts-dropdown-btn"></div>
+				</div>
 			</div>
 		</div>
 
@@ -79,6 +104,5 @@
 
 		<script src="js/lib/wtf_wikipedia.js" type="text/javascript"></script>
 		<script src="js/lib/jsmind.custom.js" type="text/javascript"></script>
-		<script src="js/lib/jsmind.screenshot.js" type="text/javascript"></script>
 	</body>
 </html>

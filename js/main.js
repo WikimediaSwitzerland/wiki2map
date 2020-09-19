@@ -1,9 +1,10 @@
 'use strict';
 
 import * as voice from "./modules/voice.mjs";
-import * as listeners from "./modules/listeners.mjs";
+import * as ui from "./modules/ui.mjs";
 import * as autocomplete from "./modules/autocomplete.mjs";
 import * as map from "./modules/map.mjs";
+import {getWiki, getTopic, getLang, populateList} from "./modules/misc.mjs";
 
 // ============================  DOCUMENT SETUP  ============================ //
 
@@ -19,30 +20,15 @@ let defaultConfig = {
 };
 
 function init() {
-  populate("wiki-dropdown", defaultConfig.wikis);
-  populate("lang-dropdown", defaultConfig.languages);
-
-  function populate(element, data) {
-    let dropdown = $("#" + element + " div");
-    let option = $("<a></a>");
-    option.addClass("dropdown-item");
-    option.attr("href", "#");
-
-    data.forEach(function(e, i) {
-  		option.text(e[0]);
-      option.attr("data-value", e[1]);
-
-  		dropdown.append(option.clone());
-  	});
-  }
+  populateList("wiki-dropdown", defaultConfig.wikis);
+  populateList("lang-dropdown", defaultConfig.languages);
 }
 
 $(document).ready(function() {
-
 	init();
 
   voice.init();
-  listeners.init();
+  ui.init();
   autocomplete.init();
 
 	map.content.map = new jsMind({
@@ -63,9 +49,7 @@ $(document).ready(function() {
 		$("#custom-url").val(wiki);
 		$("#topic").val(topic);
 
-		map.generate(wiki, topic, true);
+		map.generate(getWiki(), getTopic(), getLang(), true);
 	}
 
 });
-
-export {map};

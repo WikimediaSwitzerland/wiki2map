@@ -1,19 +1,19 @@
+import {populateList} from "./misc.mjs";
+
 var synth = window.speechSynthesis;
 
 export function init() {
-  let voicesList = $("#voices");
-	voicesList.html = "";
-
 	let voices = synth.getVoices();
 	if(voices.length > 0) {
-		voices.forEach(function(voice) {
+    let list = [];
 
-			let option = $("<option></option>");
-			option.text(voice.name + " (" + voice.lang + ")");
-			voicesList.append(option);
+		voices.forEach(function(voice, i) {
+      let string = voice.name + " (" + voice.lang + ")";
+      list.push([string, i]);
 		});
 
-		$("#speech").show();
+    populateList("tts-dropdown", list);
+		$("#tts-nav").show();
 	}
 
   if(typeof synth !== "undefined" &&
@@ -21,9 +21,12 @@ export function init() {
 }
 
 export function read(text) {
-	let voice = $("#voices").selectedIndex;
+  abort();
+
+	let voice = $("#tts-dropdown-btn").attr("data-value");
+  let speech;
 	try {
-		let speech = new SpeechSynthesisUtterance(text);
+		speech = new SpeechSynthesisUtterance(text);
 	} catch(e) {
 	  console.log("Text-to-speech synthesis not supported by this browser!");
 		return;

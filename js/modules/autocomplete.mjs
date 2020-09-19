@@ -1,4 +1,4 @@
-import {getURL, getTopic} from "./misc.mjs";
+import {getWiki, getLang, getURL} from "./misc.mjs";
 import * as map from "./map.mjs";
 
 var request = undefined;
@@ -14,18 +14,27 @@ export function init() {
   });
 
   $("#autocomplete").on("mousedown", "li", function() {
-		let wiki = getURL();
   	let topic = $(this).html();
-  	map.generate(wiki, topic, true);
+  	map.generate(getWiki(), topic, getLang(), true);
 	});
+}
 
-  request = new XMLHttpRequest();
+export function update() {
+  abort();
 
-  request.addEventListener("load", function() {
-    let response = JSON.parse(request.response)[1];
+  let params = {action: "opensearch",
+    format: "json",
+    origin: "*",
+    search: $("#topic").val(),
+    namespace: "0",
+    limit: "10",
+    suggest: "true"
+  };
 
-    if(this.status == 200 && response != undefined && response.length > 0) {
+  $.getJSON("https://" + getURL() + "/w/api.php", params, (data) => {
+    let response = data[1];
 
+    if(response != undefined && response.length > 0) {
       let topic = $("<li></li>");
       topic.addClass("list-group-item py-2");
 
@@ -34,26 +43,8 @@ export function init() {
         $("#autocomplete").append(topic.clone());
       });
     }
-
     $("#autocomplete").show();
   });
-}
-
-export function update() {
-  abort();
-
-  let source = getURL();
-
-  request.open("GET", "https://" + source + "/w/api.php?" +
-    "action=opensearch&" +
-    "format=json&" +
-    "origin=*&" +
-    "search=" + $("#topic").val() + "&" +
-    "namespace=0&" +
-    "limit=10&" +
-    "suggest=true");
-
-  request.send();
 }
 
 export function abort() {
