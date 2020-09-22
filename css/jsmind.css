@@ -120,7 +120,7 @@ jmnode .video-link::after {
   left: 8px;
   width: calc(100% - 16px);
   height: calc(100% - 16px);
-  background: url("../res/icon/play.png") center center no-repeat;
+  background: url("../res/map/play.png") center center no-repeat;
 	background-color: rgba(0, 0, 0, 0.3);
   opacity: .8;
 }

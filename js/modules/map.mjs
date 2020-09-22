@@ -27,6 +27,8 @@ export const content = {
 };
 
 export function generate(wiki, topic, lang, track) {
+	$("#errorpage, #about").hide();
+
 	content.ready = false;
 
 	content.wiki = wiki;
@@ -38,8 +40,6 @@ export function generate(wiki, topic, lang, track) {
 	voice.abort(); // Stop talking
 	reset(); // Hide map, show spinner
 
-	if(track)	history.push(topic, wiki, lang); // Incognito mode or not?
-
 	wtf.fetch(
 		getTopicURL(content.wiki, topic, content.lang)).then((dump) => {
 		let sections;
@@ -48,11 +48,15 @@ export function generate(wiki, topic, lang, track) {
 			sections = dump.sections();
 		} catch(e) {
 			if(e instanceof TypeError) {
+				$("#loading").hide();
+				$("#errorpage").slideDown();
 
-				// TODO error message for redlink
+				content.ready = true;
 			}
 			return;
 		}
+
+		if(track)	history.push(topic, wiki, lang); // Incognito mode or not?
 
 		// Tooltip params for main section
 		let tooltip = [SECTION_TOOLTIP,
@@ -144,12 +148,12 @@ function reset() {
 function makeLinks(parent, links) {
 	let external = $("<img/>");
 	external.prop("title", "External link")
-		.attr("src", "res/icon/globe.png")
+		.attr("src", "res/map/globe.png")
 		.addClass("icon-link");
 
 	let internal = $("<img/>");
 	internal.prop("title", "Move to center")
-		.attr("src", "res/icon/sync.png")
+		.attr("src", "res/map/sync.png")
 		.addClass("icon-link internal");
 
 	links.forEach(function(link, i) {
@@ -304,7 +308,7 @@ function handleVikidiaTemplate(parent, t, i) {
 	if(!Array.isArray(t.list)) return; // Abort if redlink
 
 	let icon = $("<img/>");
-	icon.attr("src", "res/icon/vk.png")
+	icon.attr("src", "res/map/vk.png")
 		.addClass("icon-link")
 		.prop("title", "Vikidia link");
 

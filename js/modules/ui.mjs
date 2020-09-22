@@ -81,6 +81,10 @@ export function init() {
 			$(this).prop("disabled", false);
 	});
 
+	$("#about-button").click(function() {
+		$("#about").slideToggle();
+	});
+
 	$("#tts-dropdown-btn").click(function(e) {
 		if(map.content.speech) {
 			map.content.speech = false;
@@ -120,7 +124,7 @@ export function init() {
 		if(type == map.LINK_TOOLTIP) {
 			if(target.attr("data-tip") == undefined) {
 				let icon = $("<img/>")
-					.attr("src", "res/icon/ellipsis.gif")
+					.attr("src", "res/map/ellipsis.gif")
 					.css({height: "20px", width: "20px"});
 				$("#tooltip").html(icon);
 				wtf.fetch(target.attr("data-tip-source")).then((dump) => {
@@ -156,4 +160,13 @@ export function init() {
 		event.preventDefault();
 		$("#tooltip").empty().hide();
 	});
+
+	$("body").click(function() {
+		$("#help").hide();
+	});
+
+	// Ugly hack
+	$("#errorpage").css("width",
+		$("#dropdown-container").outerWidth()
+	);
 }

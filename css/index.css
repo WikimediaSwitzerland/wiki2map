@@ -8,7 +8,7 @@ body, html {
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 9999;
+	z-index: 5000;
 	background: linear-gradient(to bottom,
 		rgba(255,255,255,1) 50%, 90%,
 		rgba(255,255,255,0) 100%);
@@ -93,4 +93,27 @@ body, html {
 
 #tts-dropdown p {
 	margin-bottom: 5px;
+}
+
+#errorpage, #about {
+	display: none;
+	position: absolute;
+}
+
+#about {
+	left: 50%;
+	transform: translateX(-50%);
+	width: 90%;
+	border: 1px solid #ced4da;
+}
+
+#help {
+	cursor: pointer;
+	text-align: justify;
+	text-justify: inter-word;
+	position: relative;
+	width: 40rem;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 14rem;
 }
