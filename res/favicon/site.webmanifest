@@ -8,13 +8,13 @@
             "type": "image/png"
         },
         {
-            "src": "/res/favicon/android-chrome-384x384.png",
-            "sizes": "384x384",
+            "src": "/res/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone",
-    "orientation": "landscape"
+    "theme_color": "#007bff",
+    "background_color": "#007bff",
+    "start_url": "http://www.wiki2map.org",
+    "display": "standalone"
 }

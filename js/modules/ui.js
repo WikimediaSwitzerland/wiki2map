@@ -1,8 +1,8 @@
-import * as autocomplete from "./autocomplete.mjs";
-import * as voice from "./voice.mjs";
-import * as map from "./map.mjs";
-import * as history from "./history.mjs";
-import {getWiki, getTopic, getLang} from "./misc.mjs";
+import * as autocomplete from "./autocomplete.js";
+import * as voice from "./voice.js";
+import * as map from "./map.js";
+import * as history from "./history.js";
+import {getRouting, flattenJSON, getAPIURL} from "./misc.js";
 
 export function init() {
 	$(".dropdown-container").on("click", "a", function() {
@@ -30,15 +30,13 @@ export function init() {
 	});
 
 	$("#submit").click(function() {
-		map.generate(getWiki(), getTopic(), getLang(), true);
+		map.generate(true, getRouting());
 	});
 
 	$("#map").on("click", ".internal", function() {
 		let target = $(this);
-		map.generate(map.content.wiki,
-			target.attr("data-topic"),
-			map.content.lang,
-			true);
+		map.content.routing.topic = target.attr("data-topic");
+		map.generate(true);
 	});
 
 	$("#zoom-in-button").click(function() {
@@ -127,7 +125,10 @@ export function init() {
 					.attr("src", "res/map/ellipsis.gif")
 					.css({height: "20px", width: "20px"});
 				$("#tooltip").html(icon);
-				wtf.fetch(target.attr("data-tip-source")).then((dump) => {
+				let routing = JSON.parse(target.attr("data-tip-routing"));
+
+				$.getJSON(getAPIURL(routing)).done(function(data) {
+					let dump = wtf(flattenJSON(data)["*"]);
 					try {
 						target.attr("data-tip", dump.sentences(0)["data"]["text"]);
 					} catch(e) {
@@ -162,7 +163,7 @@ export function init() {
 	});
 
 	$("body").click(function() {
-		$("#help").hide();
+		$("#help").fadeOut(200);
 	});
 
 	// Ugly hack

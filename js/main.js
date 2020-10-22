@@ -1,10 +1,10 @@
 'use strict';
 
-import * as voice from "./modules/voice.mjs";
-import * as ui from "./modules/ui.mjs";
-import * as autocomplete from "./modules/autocomplete.mjs";
-import * as map from "./modules/map.mjs";
-import {getWiki, getTopic, getLang, populateList} from "./modules/misc.mjs";
+import * as voice from "./modules/voice.js";
+import * as ui from "./modules/ui.js";
+import * as autocomplete from "./modules/autocomplete.js";
+import * as map from "./modules/map.js";
+import {getRouting, populateList} from "./modules/misc.js";
 
 // ============================  DOCUMENT SETUP  ============================ //
 
@@ -49,7 +49,6 @@ $(document).ready(function() {
 		$("#custom-url").val(wiki);
 		$("#topic").val(topic);
 
-		map.generate(getWiki(), getTopic(), getLang(), true);
+		map.generate(true, getRouting());
 	}
-
 });

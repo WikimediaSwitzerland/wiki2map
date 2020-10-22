@@ -1,5 +1,5 @@
-import {getWiki, getLang, getURL} from "./misc.mjs";
-import * as map from "./map.mjs";
+import {getRouting, getBaseURL} from "./misc.js";
+import * as map from "./map.js";
 
 var request = undefined;
 
@@ -15,7 +15,7 @@ export function init() {
 
   $("#autocomplete").on("mousedown", "li", function() {
   	let topic = $(this).html();
-  	map.generate(getWiki(), topic, getLang(), true);
+  	map.generate(true, getRouting(false, topic));
 	});
 }
 
@@ -31,7 +31,7 @@ export function update() {
     suggest: "true"
   };
 
-  $.getJSON("https://" + getURL() + "/w/api.php", params, (data) => {
+  $.getJSON(getBaseURL() + "/w/api.php", params, (data) => {
     let response = data[1];
 
     if(response != undefined && response.length > 0) {

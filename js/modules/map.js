@@ -1,6 +1,6 @@
-import * as voice from "./voice.mjs";
-import * as history from "./history.mjs";
-import {getTopicURL, flattenJSON} from "./misc.mjs";
+import * as voice from "./voice.js";
+import * as history from "./history.js";
+import {getTopicURL, getAPIURL, getBaseURL, getRouting, flattenJSON} from "./misc.js";
 
 export const NO_TOOLTIP = 0;
 export const LINK_TOOLTIP = 1;
@@ -17,104 +17,102 @@ export const content = {
 	"tree": [],
 	"map": undefined,
 
-	"wiki": undefined,
-	"topic": undefined,
-	"lang": undefined,
+	"routing": undefined,
 
 	"ready": false,
 
 	"speech": false
 };
 
-export function generate(wiki, topic, lang, track) {
+export function generate(track, routing = false) {
 	$("#errorpage, #about").hide();
 
 	content.ready = false;
+	if(routing !== false) {
+		content.routing = routing;
+	}
 
-	content.wiki = wiki;
-	content.topic = topic;
-	content.lang = lang;
-
-	$("#topic").val(topic);
+	$("#topic").val(content.routing.topic);
 
 	voice.abort(); // Stop talking
 	reset(); // Hide map, show spinner
 
-	wtf.fetch(
-		getTopicURL(content.wiki, topic, content.lang)).then((dump) => {
-		let sections;
+	$.getJSON(getAPIURL(content.routing)).done(function(data) {
+			let dump = wtf(flattenJSON(data)["*"]);
+			let sections;
 
-		try {
-			sections = dump.sections();
-		} catch(e) {
-			if(e instanceof TypeError) {
-				$("#loading").hide();
-				$("#errorpage").slideDown();
+			try {
+				sections = dump.sections();
+			} catch(e) {
+				if(e instanceof TypeError) {
+					$("#loading").hide();
+					$("#errorpage").slideDown();
 
-				content.ready = true;
+					content.ready = true;
+				}
+				return;
 			}
-			return;
-		}
 
-		if(track)	history.push(topic, wiki, lang); // Incognito mode or not?
+			if(track)	history.push(content.routing); // Incognito mode or not?
 
-		// Tooltip params for main section
-		let tooltip = [SECTION_TOOLTIP,
-			sections[0]];
+			// Tooltip params for main section
+			let tooltip = [SECTION_TOOLTIP,
+				sections[0]];
 
-		content.tree = [{
-			"id": ROOT_NODE,
-			"isroot": true,
-			"topic": getInternalLink(wiki, topic, lang, tooltip)[0].outerHTML
-		}];
+			content.tree = [{
+				"id": ROOT_NODE,
+				"isroot": true,
+				"topic": getInternalLink(content.routing, tooltip)[0].outerHTML
+			}];
 
-		// Create nodes around main element
-		makeLinks(ROOT_NODE, sections[0].links());
-		makeImages(ROOT_NODE, sections[0].images());
-		makeTemplates(ROOT_NODE, sections[0]);
+			// Create nodes around main element
+			makeLinks(ROOT_NODE, sections[0].links());
+			makeImages(ROOT_NODE, sections[0].images());
+			makeTemplates(ROOT_NODE, sections[0]);
 
-		// Keeps track of where we are on the page when building the mindmap
-		let index = [0, 0, 0, 0];
+			// Keeps track of where we are on the page when building the mindmap
+			let index = [0, 0, 0, 0];
 
-		sections.shift(); // Remove first element (not a section)
-		// Create nodes around children of main element
-		sections.forEach(function(section, i) { // Cycle between all sections
-			let title = section.title();
+			sections.shift(); // Remove first element (not a section)
+			// Create nodes around children of main element
+			sections.forEach(function(section, i) { // Cycle between all sections
+				let title = section.title();
 
-			let url = getTopicURL(wiki, topic, lang) + "#" + title.replace(/ /g,"_");
+				let url = getTopicURL(content.routing) + "#" + title.replace(/ /g,"_");
 
-			// Tooltip params for children sections
-			let tooltip = [SECTION_TOOLTIP, section];
-			// Make section node clickable and take user to #section
-			let link = getTextLink(title, url, tooltip);
+				// Tooltip params for children sections
+				let tooltip = [SECTION_TOOLTIP, section];
+				// Make section node clickable and take user to #section
+				let link = getTextLink(title, url, tooltip);
 
-			let tab = section.indentation();
-			let parent = ROOT_NODE;
-			index[tab] = i;
+				let tab = section.indentation();
+				let parent = ROOT_NODE;
+				index[tab] = i;
 
-			// Build node id, each -p marks another level (max 4)
-			for(let k = 0; k < tab; k++)
-				parent += "-p" + index[k];
+				// Build node id, each -p marks another level (max 4)
+				for(let k = 0; k < tab; k++) {
+					parent += "-p" + index[k];
+				}
 
-			let id = parent + "-p" + i;
+				let id = parent + "-p" + i;
 
-			// Add node to tree, this will be used by jsmind later
-			addNode(id, parent, link[0].outerHTML);
+				// Add node to tree, this will be used by jsmind later
+				addNode(id, parent, link[0].outerHTML);
 
-			// Create nodes for this section
-			makeLinks(id, section.links());
-			makeImages(id, section.images());
-			makeTemplates(id, section);
+				// Create nodes for this section
+				makeLinks(id, section.links());
+				makeImages(id, section.images());
+				makeTemplates(id, section);
+			});
+
+			// Done, show map
+			// Note that show() may be called again when images and some
+			// templates have finished their async loading
+			// This is necessary as jsmind has to relayout the map
+			show();
+
+			content.ready = true;
 		});
-
-		// Done, show map
-		// Note that show() may be called again when images and some
-		// templates have finished their async loading
-		// This is necessary as jsmind has to relayout the map
-		show();
-
-		content.ready = true;
-	});
 }
 
 // Hide spinner, show map
@@ -168,9 +166,8 @@ function makeLinks(parent, links) {
 		} else { // Or is this an internal link?
 			internal.attr("data-topic", link.page());
 			// Create link element
-			let value = getInternalLink(content.wiki,
-				link.page(),
-				content.lang,
+			let value = getInternalLink(
+				getRouting(content.routing.base, link.page()),
 				[LINK_TOOLTIP]);
 
 			container.append(internal.clone());
@@ -207,7 +204,7 @@ function makeImages(parent, images) {
 				iiurlwidth: IMAGE_THUMB_SIZE
 			};
 
-			let url = "https://" + content.lang + "." + content.wiki + "/w/api.php";
+			let url = getBaseURL(content.routing) + "/w/api.php";
 
 			$.getJSON(url, params, (dump) => {
 				let data = flattenJSON(dump);
@@ -286,9 +283,14 @@ function handleYoutubeTemplate(parent, t, i) {
 
 	// Here we use noembed to get a thumbnail. Thankfully they are all the
 	// same size so we can add the node right away.
-	$.getJSON("https://noembed.com/embed", params, (data) => {
-		let thumburl = "https://img.youtube.com/vi/" + t.id + "/mqdefault.jpg";
+	$.getJSON("https://noembed.com/embed", params).done(function(data) {
+		// If video is not available don't bother adding it
+		// Possibly not the best behavior
+		if(data.hasOwnProperty("error")) {
+			return;
+		}
 
+		let thumburl = "https://img.youtube.com/vi/" + t.id + "/mqdefault.jpg";
 		thumb.attr("data-source", "https://www.youtube.com/watch?v=" + t.id)
 			.attr("src", "https://img.youtube.com/vi/" + t.id + "/mqdefault.jpg");
 
@@ -316,13 +318,13 @@ function handleVikidiaTemplate(parent, t, i) {
 
 	// Vikidia templates use this weird format...
 	let topic = t.list[0];
-	let title = t.list[1];
-	let url = "https://" + content.lang + ".vikidia.org/wiki/" + topic;
 
+	let lang = content.routing.base.split(".")[0];
+	let routing = getRouting(lang + ".vikidia.org", topic);
 	// Replace with NO_TOOLTIP with LINK_TOOLTIP when (and if) vikidia
 	// fixes CORS permissions to enable tooltips
-	let tooltip = [NO_TOOLTIP, content.lang + ".vikidia.org", topic];
-	let link = getTextLink(topic, url, tooltip, icon);
+	let tooltip = [LINK_TOOLTIP, routing];
+	let link = getTextLink(topic, getTopicURL(routing), tooltip, icon);
 
 	addNode(id, parent, link[0].outerHTML);
 }
@@ -339,8 +341,7 @@ function attachTooltip(link, tooltip) {
 
 	// Attach tooltips if requested
 	if(type == LINK_TOOLTIP) {
-		let source = getTopicURL(tooltip[1], tooltip[2], tooltip[3]);
-		link.attr("data-tip-source", source);
+		link.attr("data-tip-routing", JSON.stringify(tooltip[1]));
 	} else if(type == SECTION_TOOLTIP) {
 		// Use first sentence of section as tooltip
 		let sentences = tooltip[1].sentences();
@@ -387,11 +388,12 @@ function getImageLink(image) {
 }
 
 // Link to a wiki page
-function getInternalLink(wiki, topic, lang, tooltip, icon = null) {
+function getInternalLink(routing, tooltip, icon = null) {
+	let topic = routing.topic;
 	let text = topic.charAt(0).toUpperCase() + topic.slice(1);
-	if(tooltip[0] == LINK_TOOLTIP)
-		tooltip = [tooltip, wiki, topic, lang];
-	return getTextLink(text,
-		getTopicURL(wiki, topic, lang),
-		tooltip, icon);
+	if(tooltip[0] == LINK_TOOLTIP) {
+		tooltip = [tooltip, routing];
+	}
+
+	return getTextLink(text, getTopicURL(routing), tooltip, icon);
 }

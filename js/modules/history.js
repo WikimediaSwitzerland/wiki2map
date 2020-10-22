@@ -1,17 +1,16 @@
-import {generate} from "./map.mjs";
-import {getURL} from "./misc.mjs";
+import {generate} from "./map.js";
 
 export const content = {
   pages: [],
   index: 0
 };
 
-export function push(topic, wiki, lang) {
+export function push(routing) {
   let oldLength = content.pages.length;
 
   content.pages.splice(content.index + 1,
     oldLength,
-    [topic, wiki, lang]);
+    routing);
 
   let newLength = content.pages.length;
   content.index = newLength - 1;
@@ -33,6 +32,6 @@ export function forward(n = 1) {
 
 function update(entry) {
   $("#custom-url-button").click();
-  $("#custom-url").val(entry[2] + "." + entry[1]);
-  generate(entry[1], entry[0], entry[2], false);
+  $("#custom-url").val(entry.base);
+  generate(false, entry);
 }

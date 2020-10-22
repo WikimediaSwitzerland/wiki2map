@@ -1,4 +1,4 @@
-import {populateList} from "./misc.mjs";
+import {populateList} from "./misc.js";
 
 var synth = window.speechSynthesis;
 
