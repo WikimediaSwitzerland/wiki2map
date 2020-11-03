@@ -34,7 +34,17 @@ export function getBaseURL(routing = false) {
   return "https://" + routing.base;
 }
 
-const params = {
+const AUTOCOMPLETE_PARAMS = {
+  action: "opensearch",
+  format: "json",
+  origin: "*",
+  search: "",
+  namespace: "0",
+  limit: "10",
+  suggest: "true"
+};
+
+const TOPIC_PARAMS = {
   action: "query",
   redirects: true,
   prop: "revisions",
@@ -43,20 +53,19 @@ const params = {
   format: "json",
   origin: "*",
   titles: ""
-}
+};
 
-export function getAPIURL(routing) {
-  let url = getBaseURL(routing) + "/w/api.php?";
+export function getAPIParams(routing = false) {
+  let params;
 
-  Object.keys(params).forEach(function(i, j) {
-    if(j > 0) {
-      url += "&";
-    }
-    url += (i + "=" + params[i])
-  });
-
-  url += routing.topic + "&callback=?";
-  return url;
+  if(routing !== false) {
+    params = TOPIC_PARAMS;
+    params.titles = routing.topic;
+  } else {
+    params = AUTOCOMPLETE_PARAMS;
+    params.search = $("#topic").val();
+  }
+  return params;
 }
 
 // Populate control lists on startup

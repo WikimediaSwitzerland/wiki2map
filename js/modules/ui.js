@@ -2,9 +2,10 @@ import * as autocomplete from "./autocomplete.js";
 import * as voice from "./voice.js";
 import * as map from "./map.js";
 import * as history from "./history.js";
-import {getRouting, flattenJSON, getAPIURL} from "./misc.js";
+import {getRouting, flattenJSON, getAPIParams, getBaseURL} from "./misc.js";
 
 export function init() {
+	// Make Bootstrap dropdown behave decently
 	$(".dropdown-container").on("click", "a", function() {
 		let target = $(this);
 
@@ -13,6 +14,7 @@ export function init() {
 		button.find("span").html(target.html());
 	});
 
+	// Set UI up for inputting custom wiki URL
 	$("#custom-url-button").click(function() {
 		$("#dropdown-container").hide();
 		$("#custom-url-container").css("display", "flex");
@@ -21,6 +23,7 @@ export function init() {
 		$("#controls").attr("data-target", true);
 	});
 
+	// Cancel what happened above
 	$("#custom-url-back").click(function() {
 		$("#dropdown-container").css("display", "flex");
 		$("#custom-url-container").css("display", "none");
@@ -29,16 +32,23 @@ export function init() {
 		$("#controls").attr("data-target", false);
 	});
 
+	// Start the show
 	$("#submit").click(function() {
 		map.generate(true, getRouting());
 	});
 
+	// Cliked on a mappable link (internal) - Do the thing
 	$("#map").on("click", ".internal", function() {
 		let target = $(this);
+		// Direct access to the map routing
 		map.content.routing.topic = target.attr("data-topic");
+		// It already knows what to do
 		map.generate(true);
 	});
 
+	// ============= MIDDLE NAV BUTTONS ============= //
+
+	// Handle zooming
 	$("#zoom-in-button").click(function() {
 		let content = map.content;
 		if(!content.ready) return;
@@ -59,6 +69,9 @@ export function init() {
 			$("#zoom-out-button").addClass("disabled");
 	});
 
+	$("#back-button").prop("disabled", true);
+
+	// Handle history
 	$("#back-button").click(function() {
 		history.back();
 		let content = history.content;
@@ -83,6 +96,9 @@ export function init() {
 		$("#about").slideToggle();
 	});
 
+	// ============= END MIDDLE NAV BUTTONS ============= //
+
+	// All-in-one button to enable tts
 	$("#tts-dropdown-btn").click(function(e) {
 		if(map.content.speech) {
 			map.content.speech = false;
@@ -99,6 +115,7 @@ export function init() {
 		}
 	});
 
+	// Make the tts dropdown with all the different language options work
 	$("#tts-dropdown .dropdown-menu").on("click", "a", function() {
 		map.content.speech = true;
 
@@ -109,17 +126,24 @@ export function init() {
 			addClass("btn-success");
 	});
 
+	// If the bubble is ".readable" and tts is enabled read it out loud
 	$("#map").on("mouseover", ".readable", function() {
 		if(map.content.speech)
 			voice.read($(this).text());
 	});
 
+	// ============= TOOLTIP GENERATION AND DISPLAY ============= //
+	// STRATEGY: if element has data-tip-type attrib && doesn't have any data
+	// in data-tip yet then attempt to fetch it from its page; this
+	// is for LINK_TOOLTIPs only. Otherwise, simply display it, as all data is
+	// already loaded.
 	$("#map").on("mouseover", "[data-tip-type]", function(event) {
 		event.preventDefault();
 		let target = $(this);
 		let type = target.attr("data-tip-type");
 
 		if(type == map.LINK_TOOLTIP) {
+			// We don't have anything to display yet - load it and store in attribute
 			if(target.attr("data-tip") == undefined) {
 				let icon = $("<img/>")
 					.attr("src", "res/map/ellipsis.gif")
@@ -127,7 +151,8 @@ export function init() {
 				$("#tooltip").html(icon);
 				let routing = JSON.parse(target.attr("data-tip-routing"));
 
-				$.getJSON(getAPIURL(routing)).done(function(data) {
+				$.getJSON(getBaseURL() + "/w/api.php",
+					getAPIParams(routing), function(data) {
 					let dump = wtf(flattenJSON(data)["*"]);
 					try {
 						target.attr("data-tip", dump.sentences(0)["data"]["text"]);
@@ -138,18 +163,21 @@ export function init() {
 						return;
 					}
 					// Are we still on that element?
-					if(target.is(":hover"))
+					if(target.is(":hover")) {
 						$("#tooltip").html(target.attr("data-tip")).show();
+					}
 				});
 			}
 		}
 
+		// Whatever happens, show tooltip
 		$("#tooltip").html(target.attr("data-tip")).show();
 	});
 
 	// Make tooltip follow mouse
 	$("#map").on("mousemove", "[data-tip-type]", function(event) {
 		event.preventDefault();
+		// Compensate a couple pixels
 		let left = event.clientX + 15 + "px";
 		let top = event.clientY + 15 + "px";
 
@@ -162,11 +190,12 @@ export function init() {
 		$("#tooltip").empty().hide();
 	});
 
+	// "Click anywhere to dismiss"
 	$("body").click(function() {
 		$("#help").fadeOut(200);
 	});
 
-	// Ugly hack
+	// Ugly hack, pretty result
 	$("#errorpage").css("width",
 		$("#dropdown-container").outerWidth()
 	);

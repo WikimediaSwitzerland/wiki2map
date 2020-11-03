@@ -1,4 +1,4 @@
-import {getRouting, getBaseURL} from "./misc.js";
+import {getRouting, getBaseURL, getAPIParams} from "./misc.js";
 import * as map from "./map.js";
 
 var request = undefined;
@@ -22,16 +22,7 @@ export function init() {
 export function update() {
   abort();
 
-  let params = {action: "opensearch",
-    format: "json",
-    origin: "*",
-    search: $("#topic").val(),
-    namespace: "0",
-    limit: "10",
-    suggest: "true"
-  };
-
-  $.getJSON(getBaseURL() + "/w/api.php", params, (data) => {
+  $.getJSON(getBaseURL() + "/w/api.php", getAPIParams(), function(data) {
     let response = data[1];
 
     if(response != undefined && response.length > 0) {
@@ -48,8 +39,9 @@ export function update() {
 }
 
 export function abort() {
-    if(request != undefined && request.readyState < 4)
+    if(request != undefined && request.readyState < 4) {
       request.abort();
+    }
 
     $("#autocomplete").empty().hide();
 }

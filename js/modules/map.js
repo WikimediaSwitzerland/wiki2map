@@ -1,6 +1,6 @@
 import * as voice from "./voice.js";
 import * as history from "./history.js";
-import {getTopicURL, getAPIURL, getBaseURL, getRouting, flattenJSON} from "./misc.js";
+import {getTopicURL, getAPIParams, getBaseURL, getRouting, flattenJSON} from "./misc.js";
 
 export const NO_TOOLTIP = 0;
 export const LINK_TOOLTIP = 1;
@@ -37,82 +37,83 @@ export function generate(track, routing = false) {
 	voice.abort(); // Stop talking
 	reset(); // Hide map, show spinner
 
-	$.getJSON(getAPIURL(content.routing)).done(function(data) {
-			let dump = wtf(flattenJSON(data)["*"]);
-			let sections;
+	$.getJSON(getBaseURL() + "/w/api.php",
+		getAPIParams(content.routing), function(data) {
+		let dump = wtf(flattenJSON(data)["*"]);
+		let sections;
 
-			try {
-				sections = dump.sections();
-			} catch(e) {
-				if(e instanceof TypeError) {
-					$("#loading").hide();
-					$("#errorpage").slideDown();
+		try {
+			sections = dump.sections();
+		} catch(e) {
+			if(e instanceof TypeError) {
+				$("#loading").hide();
+				$("#errorpage").slideDown();
 
-					content.ready = true;
-				}
-				return;
+				content.ready = true;
+			}
+			return;
+		}
+
+		if(track)	history.push(content.routing); // Incognito mode or not?
+
+		// Tooltip params for main section
+		let tooltip = [SECTION_TOOLTIP,
+			sections[0]];
+
+		content.tree = [{
+			"id": ROOT_NODE,
+			"isroot": true,
+			"topic": getInternalLink(content.routing, tooltip)[0].outerHTML
+		}];
+
+		// Create nodes around main element
+		makeLinks(ROOT_NODE, sections[0].links());
+		makeImages(ROOT_NODE, sections[0].images());
+		makeTemplates(ROOT_NODE, sections[0]);
+
+		// Keeps track of where we are on the page when building the mindmap
+		let index = [0, 0, 0, 0];
+
+		sections.shift(); // Remove first element (not a section)
+		// Create nodes around children of main element
+		sections.forEach(function(section, i) { // Cycle between all sections
+			let title = section.title();
+
+			let url = getTopicURL(content.routing) + "#" + title.replace(/ /g,"_");
+
+			// Tooltip params for children sections
+			let tooltip = [SECTION_TOOLTIP, section];
+			// Make section node clickable and take user to #section
+			let link = getTextLink(title, url, tooltip);
+
+			let tab = section.indentation();
+			let parent = ROOT_NODE;
+			index[tab] = i;
+
+			// Build node id, each -p marks another level (max 4)
+			for(let k = 0; k < tab; k++) {
+				parent += "-p" + index[k];
 			}
 
-			if(track)	history.push(content.routing); // Incognito mode or not?
+			let id = parent + "-p" + i;
 
-			// Tooltip params for main section
-			let tooltip = [SECTION_TOOLTIP,
-				sections[0]];
+			// Add node to tree, this will be used by jsmind later
+			addNode(id, parent, link[0].outerHTML);
 
-			content.tree = [{
-				"id": ROOT_NODE,
-				"isroot": true,
-				"topic": getInternalLink(content.routing, tooltip)[0].outerHTML
-			}];
-
-			// Create nodes around main element
-			makeLinks(ROOT_NODE, sections[0].links());
-			makeImages(ROOT_NODE, sections[0].images());
-			makeTemplates(ROOT_NODE, sections[0]);
-
-			// Keeps track of where we are on the page when building the mindmap
-			let index = [0, 0, 0, 0];
-
-			sections.shift(); // Remove first element (not a section)
-			// Create nodes around children of main element
-			sections.forEach(function(section, i) { // Cycle between all sections
-				let title = section.title();
-
-				let url = getTopicURL(content.routing) + "#" + title.replace(/ /g,"_");
-
-				// Tooltip params for children sections
-				let tooltip = [SECTION_TOOLTIP, section];
-				// Make section node clickable and take user to #section
-				let link = getTextLink(title, url, tooltip);
-
-				let tab = section.indentation();
-				let parent = ROOT_NODE;
-				index[tab] = i;
-
-				// Build node id, each -p marks another level (max 4)
-				for(let k = 0; k < tab; k++) {
-					parent += "-p" + index[k];
-				}
-
-				let id = parent + "-p" + i;
-
-				// Add node to tree, this will be used by jsmind later
-				addNode(id, parent, link[0].outerHTML);
-
-				// Create nodes for this section
-				makeLinks(id, section.links());
-				makeImages(id, section.images());
-				makeTemplates(id, section);
-			});
-
-			// Done, show map
-			// Note that show() may be called again when images and some
-			// templates have finished their async loading
-			// This is necessary as jsmind has to relayout the map
-			show();
-
-			content.ready = true;
+			// Create nodes for this section
+			makeLinks(id, section.links());
+			makeImages(id, section.images());
+			makeTemplates(id, section);
 		});
+
+		// Done, show map
+		// Note that show() may be called again when images and some
+		// templates have finished their async loading
+		// This is necessary as jsmind has to relayout the map
+		show();
+
+		content.ready = true;
+	});
 }
 
 // Hide spinner, show map
