@@ -18,9 +18,7 @@ export const content = {
 	"map": undefined,
 
 	"routing": undefined,
-
 	"ready": false,
-
 	"speech": false
 };
 
@@ -118,6 +116,7 @@ export function generate(track, routing = false) {
 
 // Hide spinner, show map
 function show() {
+
 	$("#map").show();
 	$("#loading").hide();
 
