@@ -10,14 +10,15 @@ export function push(routing) {
 
   content.pages.splice(content.index + 1,
     oldLength,
-    routing);
+    JSON.parse(JSON.stringify(routing)));
 
   let newLength = content.pages.length;
   content.index = newLength - 1;
 
   $("#forward-button").prop("disabled", true);
-  if(newLength > 1)
+  if(content.index > 0) {
     $("#back-button").prop("disabled", false);
+  }
 }
 
 export function back(n = 1) {
