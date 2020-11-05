@@ -48,6 +48,15 @@ export function init() {
 
 	// ============= MIDDLE NAV BUTTONS ============= //
 
+	// Handle collapsing and expanding
+	$("#collapse-button").click(function() {
+		map.content.map.collapse_all();
+	});
+
+	$("#expand-button").click(function() {
+		map.content.map.expand_all();
+	});
+
 	// Handle zooming
 	$("#zoom-in-button").click(function() {
 		let content = map.content;

@@ -29,7 +29,7 @@
 	</head>
 	<body>
 		<div class="row" id="controls" data-target="0">
-			<div class="col-md-3">
+			<div class="col-lg-3 col-md-12">
 				<div id="dropdown-container" class="justify-content-between flex-wrap">
 					<div class="d-flex">
 						<div id="wiki-dropdown" class="mr-2 dropdown-container">
@@ -70,8 +70,12 @@
 						Sorry, the page you were looking for couldn't be found!
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-lg-6 col-md-12">
 				<div class="d-flex flex-row justify-content-center h-100" id="middle-nav">
+					<button id="collapse-button" class="btn btn-primary">
+						Collapse all
+						<img src="res/nav/collapse.png" title="Collapse all nodes"/>
+					</button>
 					<button id="back-button" disabled class="btn btn-primary">
 						Back
 						<img src="res/nav/back.png" title="Back"/>
@@ -92,6 +96,10 @@
 						Forward
 						<img src="res/nav/forward.png" title="Forward"/>
 					</button>
+					<button id="expand-button" class="btn btn-primary">
+						Expand all
+						<img src="res/nav/expand.png" title="Expand all nodes"/>
+					</button>
 				</div>
 				<div class="alert alert-light mt-2" id="about" role="alert">
 					<p>
@@ -108,7 +116,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="col-md-3">
+			<div class="col-lg-3 col-md-12">
 				<div class="d-flex flex-row justify-content-end h-100 dropdown-container" id="tts-dropdown">
 					<button class="btn btn-primary dropdown-toggle h-100" type="button"
 						id="tts-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
