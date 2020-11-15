@@ -35,92 +35,79 @@
 						<div id="wiki-dropdown" class="mr-2 dropdown-container">
 							<button class="btn mb-1 btn-primary dropdown-toggle" type="button"
 								id="wiki-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span>Wiki</span>
+								<span localized="wiki-dropdown|html"></span>
 						  </button>
 						  <div class="dropdown-menu" aria-labelledby="wiki-dropdown-btn"></div>
 						</div>
 						<div id="lang-dropdown" class="dropdown-container">
 							<button class="btn mb-1 btn-primary dropdown-toggle" type="button"
 								id="lang-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    <span>Language</span>
+						    <span localized="language-dropdown|html"></span>
 						  </button>
 						  <div class="dropdown-menu" aria-labelledby="lang-dropdown-btn"></div>
 						</div>
 					</div>
 					<div class="d-flex">
-						<button id="custom-url-button" class="btn mb-1 btn-outline-primary">
-							Custom URL
-						</button>
+						<button id="custom-url-button" localized="custom-url-button|html" class="btn mb-1 btn-outline-primary"></button>
 					</div>
 				</div>
 				<div class="input-group mb-2" id="custom-url-container">
-					<input type="text" id="custom-url" class="form-control" placeholder="Custom wiki URL">
+					<input type="text" id="custom-url" localized="wiki-textbox|placeholder" class="form-control">
 					<div class="input-group-append">
-						<button class="btn btn-primary" id="custom-url-back" type="button">Back</button>
+						<button class="btn btn-primary" id="custom-url-back" localized="custom-url-back-button|html" type="button"></button>
 					</div>
 				</div>
 				<div class="input-group mt-1" id="topic-container">
-					<input type="text" id="topic" class="form-control" placeholder="Topic">
+					<input type="text" id="topic" localized="topic-textbox|placeholder" class="form-control">
 					<div class="input-group-append">
-						<button class="btn btn-success" id="submit" type="button">Search</button>
+						<button class="btn btn-success" id="submit" localized="search-button|html" type="button"></button>
 					</div>
 				</div>
 				<ul class="list-group" id="autocomplete"></ul>
-				<div class="alert alert-danger mt-2" id="errorpage" role="alert">
-						Sorry, the page you were looking for couldn't be found!
+				<div id="message-container">
+					<div class="alert alert-danger mt-2" id="error-message" localized="error-message|html" role="alert"></div>
+					<div class="alert alert-light mt-2" id="about-message" localized="about-content|html" role="alert"></div>
 				</div>
 			</div>
+			<!-- MIDDLE NAVBAR BEGIN -->
 			<div class="col-lg-6 col-md-12">
 				<div class="d-flex flex-row justify-content-center h-100" id="middle-nav">
 					<button id="collapse-button" class="btn btn-primary">
-						Collapse all
-						<img src="res/nav/collapse.png" title="Collapse all nodes"/>
+						<span localized="collapse-button|html"></span>
+						<img src="res/nav/collapse.png" localized="collapse-img|title,alt"/>
 					</button>
 					<button id="back-button" disabled class="btn btn-primary">
-						Back
-						<img src="res/nav/back.png" title="Back"/>
+						<span localized="back-button|html"></span>
+						<img src="res/nav/back.png" localized="back-img|title,alt"/>
 					</button>
 					<button id="zoom-out-button" class="btn btn-info">
-						Zoom out
-						<img src="res/nav/out.png" title="Zoom out"/>
+						<span localized="zoom-out-button|html"></span>
+						<img src="res/nav/out.png" localized="zoom-out-img|title,alt"/>
 					</button>
 					<button id="about-button" class="btn btn-primary">
-						About
-						<img src="res/nav/about.png" title="About"/>
+						<span localized="about-button|html"></span>
+						<img src="res/nav/about.png" localized="about-img|title,alt"/>
 					</button>
 					<button id="zoom-in-button" class="btn btn-info">
-						Zoom in
-						<img src="res/nav/in.png" title="Zoom in"/>
+						<span localized="zoom-in-button|html"></span>
+						<img src="res/nav/in.png" localized="zoom-in-img|title,alt"/>
 					</button>
 					<button id="forward-button" disabled class="btn btn-primary">
-						Forward
-						<img src="res/nav/forward.png" title="Forward"/>
+						<span localized="forward-button|html"></span>
+						<img src="res/nav/forward.png" localized="forward-img|title,alt"/>
 					</button>
 					<button id="expand-button" class="btn btn-primary">
-						Expand all
-						<img src="res/nav/expand.png" title="Expand all nodes"/>
+						<span localized="expand-button|html"></span>
+						<img src="res/nav/expand.png" localized="expand-img|title,alt"/>
 					</button>
 				</div>
-				<div class="alert alert-light mt-2" id="about" role="alert">
-					<p>
-						Made by <a target="_blank" href="https://github.com/hbar-boi" alt="Filippo Miserocchi">Filippo Miserocchi</a> and
-						<a target="_blank" href="http://www.mattruffoni.it/" alt="Matteo Ruffoni">Matteo Ruffoni</a> for
-						<a target="_blank" href="http://www.wikimedia.ch/" alt="Wikimedia CH">Wikimedia CH</a>
-						using <a target="_blank" href="https://github.com/hizzgdev" alt="Zhigang Zhang">Zhigang Zhang</a>'s jsMind
-						and	<a target="_blank" href="https://github.com/spencermountain" alt="Spencer Kelly">Spencer Kelly</a>'s wtf_wikipedia.
-						Icons designed by <a target="_blank" href="https://www.iconfinder.com/yanlu">Yannick Lung</a> and
-						<a target="_blank" href="http://www.wishforge.games/">Andriy Matviychuk</a>.
-					</p>
-					<p class="mb-0">
-						Released under the <a target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a> license.
-					</p>
-				</div>
 			</div>
+			<!-- MIDDLE NAVBAR END -->
 			<div class="col-lg-3 col-md-12">
 				<div class="d-flex flex-row justify-content-end h-100 dropdown-container" id="tts-dropdown">
 					<button class="btn btn-primary dropdown-toggle h-100" type="button"
 						id="tts-dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="res/nav/tts.png" title="Back"/>
+						<img src="res/nav/tts.png"/>
 						<p></p>
 						<span></span>
 					</button>
@@ -133,25 +120,8 @@
 		</div>
 		<div id="tooltip"></div>
 		<div id="map"></div>
-		<div id="help" title="Click to dismiss">
-			<h2>Welcome to Wiki2Map!</h2>
-			<p>To start generating your mindmaps begin by choosing your wiki (and language) using the dropdown menus.
-				If you don't find it there simply copy and paste the root URL of the website (without including "http://www", such as in "en.wikipedia.org") in the "Custom URL" textbox.
-				Finally, input the topic you are looking for and press "Search"!
-			</p>
-			<p>
-				Once you have generated your mind map you can zoom in and out using the buttons on top.
-				Each section of the map can be expanded and collapsed, while links to other topics inside the wiki can be quickly used to generate another map by clicking on the <img src="res/map/sync.png" /> icon.
-				The <img src="res/map/globe.png" /> icon means that a particular link is external to the wiki and points to some other website.
-				Images and youtube videos are included in the mindmap and can be viewed by clicking on them.
-				The arrows on top can be used to go back and forward between maps generated during this session.
-			</p>
-			<p>
-				If you need help with reading and don't have any screen reader software installed you can enable screen reading by clicking on the box on the right side of the screen.
-				Just choose the language from the drop-down menu and the browser will read the bubbles to you as you pass the cursor over them. </br>
-				Please note that screen reading capabilities depend on the browser you are using and might not be always available!
-			</p>
-			<span>Click anywhere to dismiss this message.</span>
+		<div id="help" localized="init-help|title" title="Click to dismiss">
+			<span localized="init-help-content|html"></span>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"
 			integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>

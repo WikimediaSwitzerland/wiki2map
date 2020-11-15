@@ -2,10 +2,19 @@ import * as autocomplete from "./autocomplete.js";
 import * as voice from "./voice.js";
 import * as map from "./map.js";
 import * as history from "./history.js";
-import {getRouting, flattenJSON, getAPIParams, getBaseURL} from "./misc.js";
+import {getTranslation} from "./locale.js";
+import {getRouting,
+	flattenJSON,
+	getAPIParams,
+	getBaseURL,
+	populateList} from "./misc.js";
 
 export function init() {
-	// Make Bootstrap dropdown behave decently
+	let config = getTranslation("dropdown-data");
+
+	populateList("wiki-dropdown", config.wikis);
+	populateList("lang-dropdown", config.languages);
+	// Make Bootstrap dropdowns behave decently
 	$(".dropdown-container").on("click", "a", function() {
 		let target = $(this);
 
@@ -62,20 +71,22 @@ export function init() {
 		let content = map.content;
 		if(!content.ready) return;
 
-		if(content.map.view.zoomIn())
+		if(content.map.view.zoomIn()) {
 			$("#zoom-out-button").removeClass("disabled");
-		else
+		} else {
 			$("#zoom-in-button").addClass("disabled");
+		}
 	});
 
 	$("#zoom-out-button").click(function() {
 		let content = map.content;
 		if(!content.ready) return;
 
-		if(content.map.view.zoomOut())
+		if(content.map.view.zoomOut()) {
 			$("#zoom-in-button").removeClass("disabled");
-		else
+		} else {
 			$("#zoom-out-button").addClass("disabled");
+		}
 	});
 
 	$("#back-button").prop("disabled", true);
@@ -85,24 +96,27 @@ export function init() {
 		history.back();
 		let content = history.content;
 		$("#forward-button").prop("disabled", false);
-		if(content.index < 1)
+		if(content.index < 1) {
 			$(this).prop("disabled", true);
-		else
+		} else {
 			$(this).removeClass("disabled", false);
+		}
 	});
 
 	$("#forward-button").click(function() {
 		history.forward();
 		let content = history.content;
 		$("#back-button").prop("disabled", false);
-		if(content.pages.length - 1 == content.index)
+		if(content.pages.length - 1 == content.index) {
 			$(this).prop("disabled", true);
-		else
+		}	else {
 			$(this).prop("disabled", false);
+		}
 	});
 
 	$("#about-button").click(function() {
-		$("#about").slideToggle();
+		$("#about-message").css("width",
+			$("#topic-container").outerWidth()).slideToggle();
 	});
 
 	// ============= END MIDDLE NAV BUTTONS ============= //
@@ -119,7 +133,7 @@ export function init() {
 				removeClass("btn-success").
 				dropdown("toggle");
 		}	else {
-			$("p", this).html("Select a language");
+			$("p", this).html(getTranslation("tts-select-language"));
 			$("img", this).hide();
 		}
 	});
@@ -128,7 +142,7 @@ export function init() {
 	$("#tts-dropdown .dropdown-menu").on("click", "a", function() {
 		map.content.speech = true;
 
-		$("#tts-dropdown-btn p").html("Hover cursor on map");
+		$("#tts-dropdown-btn p").html(getTranslation("tts-hover"));
 		$("#tts-dropdown-btn").dropdown("toggle").
 			attr("data-toggle", "").
 			removeClass("dropdown-toggle btn-primary").
@@ -203,9 +217,4 @@ export function init() {
 	$("body").click(function() {
 		$("#help").fadeOut(200);
 	});
-
-	// Ugly hack, pretty result
-	$("#errorpage").css("width",
-		$("#dropdown-container").outerWidth()
-	);
 }
