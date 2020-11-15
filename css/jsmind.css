@@ -1,7 +1,7 @@
 /*
  * Released under BSD License
  * Copyright (c) 2014-2015 hizzgdev@163.com
- * 
+ *
  * Project Home:
  *   https://github.com/hizzgdev/jsmind/
  */
@@ -43,7 +43,7 @@ jmexpander {
 	height:12px;
 	display:block;
 	overflow:hidden;
-	line-height:14px;
+	line-height:9px;
 	font-size:14px;
 	text-align:center;
 	background-color: #fff;
@@ -54,39 +54,28 @@ jmexpander {
 
 /* default theme */
 jmnode {
-	padding:6px;
-	background-color: #e5e5e5;
-	color: #444;
+	padding:8px;
+	background-color: #fff;
+	border: 1px solid #ced4da;
+	color: #212529;
 	border-radius:4px;
-	border: 1px solid #444;
 	font:16px/1.125 Verdana, Arial, Helvetica, sans-serif;
 }
 
-jmnode a {
-	color: #444;
+jmnode:hover, jmnode.root:hover {
+	background-color: #f3f5f7;
+	border-color: #212529;
+}
+
+jmnode a, jmnode a:hover {
+	color: #212529;
 	text-decoration: none;
-}
-
-jmnode a:hover {
-	text-decoration: none;
-	color: #222;
-}
-
-jmnode:hover {
-	box-shadow:0px 0px 8px #000;
-	color: #222;
-}
-
-jmnode.selected {
-	box-shadow:0px 0px 8px #000;
 }
 
 jmnode.root {
 	font-size:25px;
-	border-radius: 10px;
-	border: 2px solid #444;
-	padding: 10px;
-	background-color: #e5e5e5;
+	border-radius: 50px;
+	padding: 12px;
 }
 
 jmexpander {
@@ -104,31 +93,43 @@ jmexpander:hover {
 
 /* Added stuff */
 
-jmnode .linkimg {
+jmnode .image-link {
 	display: inline-block;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 }
 
-jmnode .linkicon {
+jmnode .icon-link {
 	height: 16px;
 	width: 16px;
 	vertical-align: middle;
-	border-right: 1px solid #444;
+	border-right: 1px solid #212529;
 	padding-bottom: 2px;
 	padding-right: 5px;
 	margin-right: 5px;
 	display: inline-block;
 	cursor: pointer;
+	box-sizing: content-box;
+}
+
+jmnode .video-link::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  background: url("../res/map/play.png") center center no-repeat;
+	background-color: rgba(0, 0, 0, 0.3);
+  opacity: .8;
 }
 
 jmnode iframe {
 	border: 0;
 }
 
-
-jmnode img { 
+jmnode img {
 	width: 100%;
 	display: block;
 	position: relative;
@@ -146,17 +147,4 @@ jmnode img:after {
 	width: 100%;
 	height: 100%;
 	background-color: #e5e5e5;
-}
-
-#tooltip {
-	position: absolute;
-	display: none;
-	z-index: 3;
-	padding: 4px;
-	max-width: 250px;
-	border: 1px solid #444;
-	background-color: #fff;
-	border-radius: 2px;
-	font-size: 14px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 }

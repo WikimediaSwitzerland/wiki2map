@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "author": "Filippo Miserocchi",
+    "date": "14/11/2020",
+    "locale": "it"
+  },
+  "data": {
+    "wiki-dropdown": "Wiki",
+    "language-dropdown": "Lingua",
+    "search-button": "Cerca",
+    "custom-url-button": "Altra wiki",
+    "custom-url-back-button": "Annulla",
+    "topic-textbox": "Articolo",
+    "wiki-textbox": "URL della wiki",
+
+    "error-message": "Oops, non è stato possibile caricare la pagina!",
+
+    "collapse-button": "Collassa",
+    "back-button": "Indietro",
+    "zoom-out-button": "Restringi",
+    "about-button": "About",
+    "zoom-in-button": "Ingrandisci",
+    "forward-button": "Avanti",
+    "expand-button": "Espandi",
+
+    "collapse-img": "Collassa tutti i nodi",
+    "back-img": "Ultima mappa",
+    "zoom-out-img": "Restringi la mappa",
+    "about-img": "Sviluppatori e licenze",
+    "zoom-in-img": "Ingrandisci la mappa",
+    "forward-img": "Prossima mappa",
+    "expand-img": "Espandi tutti i nodi",
+
+    "move-to-center": "Sposta al centro",
+    "external-link": "Collegamento esterno",
+    "open-image": "Apri immagine",
+    "missing-image": "Immagine assente",
+    "vikidia-link": "Vikidia link",
+
+    "tts-select-language": "Seleziona la tua lingua",
+    "tts-hover": "Muovi il cursore sulla mappa",
+
+    "init-help": "Clicca per ignorare",
+    "init-help-content": "<h2>Benvenuto su Wiki2Map!</h2> <p>Per iniziare a generare una nuova mappa inizia scegliendo la wiki (e la lingua) attraverso i menù a tendina. Se non trovi quello che cerchi semplicemente copia e incolla l'URL di base del progetto (senza includere \"http://www\", per esempio \"it.wikipedia.org\") nella barra \"URL della wiki\". Infine, digita l'articolo che stai cercando e clicca su \"Cerca\"! </p> <p> Una volta che hai generato la tua mappa puoi ingrandirla o rimpicciolirla usando i controlli in alto. Ogni sezione della mappa può essere espansa o collassata, mentre i collegamenti ad altri articoli nella wiki possono essere usati per generare un'altra mappa in rapidità, cliccando sull'icona <img src=\"res/map/sync.png\" />. L'icona <img src=\"res/map/globe.png\" /> significa che un collegamento è esterno al progetto su cui stai lavorando e punta a qualche altro sito web. Immagini e video YouTube vengono inclusi nella mappa e possono essere visualizzati cliccando su di essi. Le frecce in alto possono essere usate per andare avanti e indietro tra mappe generate durante la sessione. </p> <p> Se preferisci ascoltare piuttosto che leggere e non hai un sistema di lettura dello schermo installato sul tuo computer, puoi attivare quello del browser attraverso il pulsante in alto a destra. Scegli la tua lingua dal menù a tendina e muovi il cursore sul nodo che desideri venga letto. </br> Nota bene che la lettura dello schermo dipende dal browser, si consiglia quandi di provarne diversi per ottenere le migliori prestazioni.</p> <span>Clicca ovunque per chiudere questo messaggio.</span>",
+    "about-content": "<p>Sviluppato da <a target=\"_blank\" href=\"https://github.com/hbar-boi\" title=\"Filippo Miserocchi\">Filippo Miserocchi</a> con il supporto di <a target=\"_blank\" href=\"http://www.mattruffoni.it/\" title=\"Matteo Ruffoni\">Matteo Ruffoni</a> per <a target=\"_blank\" href=\"http://www.wikimedia.ch/\" title=\"Wikimedia CH\">Wikimedia CH</a> usando jsMind di <a target=\"_blank\" href=\"https://github.com/hizzgdev\" title=\"Zhigang Zhang\">Zhigang Zhang</a> e wtf_wikipedia di <a target=\"_blank\" href=\"https://github.com/spencermountain\" title=\"Spencer Kelly\">Spencer Kelly</a>. Icone disegnate da <a target=\"_blank\" href=\"https://www.iconfinder.com/yanlu\" title=\"Yannick Lung\">Yannick Lung</a> e <a target=\"_blank\" href=\"http://www.wishforge.games/\" title=\"Andriy Matviychuk\">Andriy Matviychuk</a>. </p> <p class=\"mb-0\"> Rilasciato sotto licenza <a target=\"_blank\" href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL v3</a>.</p>",
+
+    "dropdown-data": {
+      "languages": [["Inglese", "en"],
+        ["Italiano", "it"],
+        ["Francese", "fr"],
+        ["Tedesco", "de"],
+        ["Spagnolo", "es"]],
+      "wikis": [["Wikipedia", "wikipedia.org"],
+        ["Wikiversity", "wikiversity.org"],
+        ["Vikidia", "vikidia.org"]]
+    }
+  }
+}

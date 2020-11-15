@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "author": "Filippo Miserocchi",
+    "date": "14/11/2020",
+    "locale": "en"
+  },
+  "data": {
+    "wiki-dropdown": "Wiki",
+    "language-dropdown": "Language",
+    "search-button": "Search",
+    "custom-url-button": "Custom URL",
+    "custom-url-back-button": "Cancel",
+    "topic-textbox": "Topic",
+    "wiki-textbox": "Custom wiki URL",
+
+    "error-message": "Sorry, the page you were looking for couldn't be found!",
+
+    "collapse-button": "Collapse all",
+    "back-button": "Back",
+    "zoom-out-button": "Zoom out",
+    "about-button": "About",
+    "zoom-in-button": "Zoom in",
+    "forward-button": "Forward",
+    "expand-button": "Expand all",
+
+    "collapse-img": "Collapse all nodes",
+    "back-img": "Last map",
+    "zoom-out-img": "Zoom out map",
+    "about-img": "About us",
+    "zoom-in-img": "Zoom in map",
+    "forward-img": "Next map",
+    "expand-img": "Expand all nodes",
+
+    "move-to-center": "Move to center",
+    "external-link": "External link",
+    "open-image": "Open image",
+    "missing-image": "Missing image",
+    "vikidia-link": "Vikidia link",
+
+    "tts-select-language": "Select your language",
+    "tts-hover": "Hover cursor on map",
+
+    "init-help": "Click to dismiss",
+    "init-help-content": "<h2>Welcome to Wiki2Map!</h2> <p>To start generating your mindmaps begin by choosing your wiki (and language) using the dropdown menus. If you don't find it there simply copy and paste the root URL of the website (without including \"http://www\", such as in \"en.wikipedia.org\") in the \"Custom URL\" textbox. Finally, input the topic you are looking for and press \"Search\"! </p> <p> Once you have generated your mind map you can zoom in and out using the buttons on top. Each section of the map can be expanded and collapsed, while links to other topics inside the wiki can be quickly used to generate another map by clicking on the <img src=\"res/map/sync.png\" /> icon. The <img src=\"res/map/globe.png\" /> icon means that a particular link is external to the wiki and points to some other website. Images and YouTube videos are included in the mindmap and can be viewed by clicking on them. The arrows on top can be used to go back and forward between maps generated during this session. </p> <p> If you need help with reading and don't have any screen reader software installed you can enable screen reading by clicking on the box on the right side of the screen. Just choose the language from the drop-down menu and the browser will read the bubbles to you as you pass the cursor over them. </br> Please note that screen reading capabilities depend on the browser you are using and might not be always available! </p> <span>Click anywhere to dismiss this message.</span>",
+    "about-content": "<p> Made by <a target=\"_blank\" href=\"https://github.com/hbar-boi\" title=\"Filippo Miserocchi\">Filippo Miserocchi</a> and <a target=\"_blank\" href=\"http://www.mattruffoni.it/\" title=\"Matteo Ruffoni\">Matteo Ruffoni</a> for <a target=\"_blank\" href=\"http://www.wikimedia.ch/\" title=\"Wikimedia CH\">Wikimedia CH</a> using <a target=\"_blank\" href=\"https://github.com/hizzgdev\" title=\"Zhigang Zhang\">Zhigang Zhang</a>'s jsMind and <a target=\"_blank\" href=\"https://github.com/spencermountain\" title=\"Spencer Kelly\">Spencer Kelly</a>'s wtf_wikipedia. Icons designed by <a target=\"_blank\" href=\"https://www.iconfinder.com/yanlu\" title=\"Yannick Lung\">Yannick Lung</a> and <a target=\"_blank\" href=\"http://www.wishforge.games/\" title=\"Andriy Matviychuk\">Andriy Matviychuk</a>. </p> <p class=\"mb-0\"> Released under the <a target=\"_blank\" href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL v3</a> license. </p>",
+
+    "dropdown-data": {
+      "languages": [["English", "en"],
+    		["Italian", "it"],
+    		["French", "fr"],
+    		["German", "de"],
+    		["Spanish", "es"]],
+    	"wikis": [["Wikipedia", "wikipedia.org"],
+    		["Wikiversity", "wikiversity.org"],
+    		["Vikidia", "vikidia.org"]]
+    }
+  }
+}
